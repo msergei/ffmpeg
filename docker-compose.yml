@@ -1,0 +1,10 @@
+services:
+  ffmpeg:
+    build:
+      context: .
+      dockerfile: Dockerfile
+#    command: -i /tmp/DJI_0036.MOV -vf "transpose=1,crop=in_h*9/16:in_h,scale=1080:1920,setsar=1,eq=saturation=3" -c:v libx264 -preset veryslow -profile:v high -level 4.1 -pix_fmt yuv420p -r 30 -b:v 5000k -an /tmp/output_for_instagram.mp4
+    volumes:
+      - ./source:/tmp/src
+      - ./result:/tmp/finish
+    tty: true
