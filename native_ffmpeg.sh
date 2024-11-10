@@ -1,10 +1,15 @@
 #!/bin/bash
 
-# Готовим видосы для инстаграма
-
 # Проверка наличия папки на входе
 if [ -z "$1" ]; then
     echo "Укажите папку с видеофайлами."
+    exit 1
+fi
+
+# Путь к LUT-файлу
+LUT_FILE="lut.cube"
+if [ ! -f "$LUT_FILE" ]; then
+    echo "LUT-файл $LUT_FILE не найден в текущей директории."
     exit 1
 fi
 
@@ -39,9 +44,9 @@ for file in "$INPUT_DIR"/*; do
     filename=$(basename "$file")
     output_file="$OUTPUT_DIR/${filename%.*}_processed.mp4"
 
-    # Команда FFmpeg для обработки видео с использованием аппаратного ускорения
-    ffmpeg -i "$file" -vf "${rotate_filter}scale=1080:1920,setsar=1,eq=saturation=1.30:contrast=1.15" -c:v h264_videotoolbox -b:v 5000k -r 30 -an "$output_file"
-
+    # Команда FFmpeg для обработки видео с использованием LUT, аппаратного ускорения и битрейта
+    ffmpeg -i "$file" -vf "${rotate_filter}scale=1080:1920,setsar=1,eq=saturation=1.15:brightness=0.15:contrast=1.15,lut3d=$LUT_FILE" \
+           -c:v h264_videotoolbox -b:v 5000k -r 30 -an "$output_file"
 done
 
 echo "Обработка завершена. Все файлы сохранены в папке: $OUTPUT_DIR"

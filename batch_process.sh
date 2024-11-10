@@ -18,5 +18,5 @@ for file in "$INPUT_DIR"/*.MOV; do
     output_file="$OUTPUT_DIR/${filename%.*}_enhanced.mp4"
 
     # Команда FFmpeg с добавлением повышения экспозиции и контраста
-    ffmpeg -i "$file" -vf "transpose=1,scale=1080:1920,setsar=1,eq=saturation=3:brightness=0.15:contrast=1.2" -c:v libx264 -crf 18 -level 4.1 -preset veryslow -pix_fmt yuv420p -r 30 -an "$output_file"
+    ffmpeg -i "$file" -vf "transpose=1,scale=1080:1920,setsar=1,eq=saturation=3:brightness=0.15:contrast=1.2" -c:v libx264 -crf 18 -level 4.1 -pix_fmt yuv420p -r 30 -an "$output_file"
 done
