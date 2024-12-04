@@ -56,7 +56,7 @@ for lut_file in "$LUT_DIR"/*.cube; do
 
     # Команда FFmpeg для обработки видео с использованием LUT, аппаратного ускорения и битрейта
     ffmpeg -i "$VIDEO_FILE" -vf "${rotate_filter}scale=1080:1920,setsar=1,lut3d=$lut_file" \
-           -c:v h264_videotoolbox -b:v 5000k -r 30 -an "$output_file"
+           -c:v h264_videotoolbox -b:v 4900k -pix_fmt yuv420p -r 30 -an "$output_file"
 
     echo "Обработан файл с LUT $lut_name. Готовый файл: $output_file"
 done
